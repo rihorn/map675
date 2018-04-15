@@ -37,6 +37,7 @@
         crossorigin="anonymous"></script>
     <script>
 
+
         var options = {
             center: [33.726, -84.365],
             zoom: 9,
@@ -48,16 +49,7 @@
             ]
         };
         var map = L.map('map', options);
-
-        map.createPane('labels');
-        map.getPane('labels').style.zIndex = 650;
-        map.getPane('labels').style.pointerEvents = 'none';
-
-        L.tileLayer('http://global.ssl.fastly.net/rastertiles/dark_only_labels/{z}/{x}/{y}.png', {
-            attribution: '©OpenStreetMap, ©CartoDB',
-            pane: 'labels'
-        }).addTo(map);
-
+        
         $.when(
             $.getJSON('data/city-limits.json'),
             $.getJSON('data/neighborhoods.json'),
@@ -149,13 +141,11 @@
 
                     // assign options
                     return type === 'SUBWAY' ? subwayOptions :
-                        type === 'Bus' ? busOptions :
-                            type === 'TRAM' ? tramOptions : otherRoutes;
+                           type === 'Bus' ? busOptions :
+                           type === 'TRAM' ? tramOptions : otherRoutes;
                 }
             }).addTo(map);
-
-
-
+            
         }
     </script>
 </body>
