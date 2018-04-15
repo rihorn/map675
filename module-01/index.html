@@ -5,10 +5,8 @@
 <head>
     <meta charset="utf-8">
 
-    <title>HTML5 Template</title>
-
+    <title>Atlanta Urban Geographies</title>
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.3.1/dist/leaflet.css" />
-
     <style>
         body,
         #map {
@@ -16,47 +14,50 @@
             width: 100%;
             top: 0;
             bottom: 0;
+            margin: 0;
+            padding: 0;
+            background: rgba(0,0,0,.75);
         }
     </style>
-
 </head>
 
 <body>
 
     <div id="map"></div>
 
-
     <script src="https://unpkg.com/leaflet@1.3.1/dist/leaflet.js"></script>
     <script src="https://code.jquery.com/jquery-3.2.1.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4="
         crossorigin="anonymous"></script>
     <script>
-
         var options = {
             center: [33.726, -84.365],
-            zoom: 11,
-            minZoom: 10,
+            zoom: 9,
+            minZoom: 9,
             maxZoom: 16,
             maxBounds: [
                 [33.911, -84.032],
                 [33.620, -84.772]
             ]
         };
-
         var map = L.map('map', options);
 
         $.when(
             $.getJSON('data/city-limits.json'),
-            $.getJSON('data/neighborhoods-filtered3.json'),
+            $.getJSON('data/neighborhoods.json'),
             $.getJSON('data/transit-routes.json'),
             $.getJSON('data/atlanta-urban.json')
-        ).done(function (cityLimitsData, neighborhoodsData, transitRoutesData, urbanAreasData) {
+        ).done(function (cityLimits, neighborhoods, transitRoutes, urbanAreas) {
+            drawMap(cityLimits, neighborhoods, transitRoutes, urbanAreas);
+        });
+
+        function drawMap(cityLimitsData, neighborhoodsData, transitRoutesData, urbanAreasData) {
+
             L.geoJson(cityLimitsData).addTo(map);
             L.geoJson(neighborhoodsData).addTo(map);
             L.geoJson(transitRoutesData).addTo(map);
             L.geoJson(urbanAreasData).addTo(map);
-        });
+  }
     </script>
-
 </body>
 
 </html>
