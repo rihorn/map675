@@ -27,7 +27,8 @@
 
 
     <script src="https://unpkg.com/leaflet@1.3.1/dist/leaflet.js"></script>
-
+    <script src="https://code.jquery.com/jquery-3.2.1.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4="
+        crossorigin="anonymous"></script>
     <script>
 
         var options = {
@@ -43,11 +44,17 @@
 
         var map = L.map('map', options);
 
-        L.tileLayer('https://cartodb-basemaps-{s}.global.ssl.fastly.net/light_all/{z}/{x}/{y}.pnggit', {
-            attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a> &copy; <a href="http://cartodb.com/attributions">CartoDB</a>',
-            subdomains: 'abcd',
-            maxZoom: 19
-        }).addTo(map);
+        $.when(
+            $.getJSON('data/city-limits.json'),
+            $.getJSON('data/neighborhoods-filtered3.json'),
+            $.getJSON('data/transit-routes.json'),
+            $.getJSON('data/atlanta-urban.json')
+        ).done(function (cityLimitsData, neighborhoodsData, transitRoutesData, urbanAreasData) {
+            L.geoJson(cityLimitsData).addTo(map);
+            L.geoJson(neighborhoodsData).addTo(map);
+            L.geoJson(transitRoutesData).addTo(map);
+            L.geoJson(urbanAreasData).addTo(map);
+        });
     </script>
 
 </body>
